@@ -14,7 +14,7 @@ namespace App\Http\Controllers;
 use App\Http\Classes\Controller;
 use App\Http\Models\ItemModel;
 
-class ItemController extends Controller
+class DemoController extends Controller
 {
     /**
      * 首页方法，测试框架自定义DB查询
