@@ -1,4 +1,19 @@
 {
+  "name": "RouyiTian/QM-PHP",
+  "description": "QM-PHP是一款简单的PHP MVC框架，使用面向对面快速开发。",
+  "keywords": ["QM-PHP", "RouyiTian"],
+  "license": "MIT",
+  "type": "project",
   "require": {
+    "php": ">=5.5.9",
+    "xiaoler/blade": "^5.4"
+  },
+  "autoload": {
+    "psr-4": {
+      "App\\": "app/"
+    },
+    "files": [
+      "app/Common/helpers.php"
+    ]
   }
 }

@@ -1,0 +1,74 @@
+@charset "UTF-8";
+
+body {
+    font: normal 14px '微软雅黑';
+}
+
+img {
+    max-width: 100%;
+}
+
+.content .items .item {
+    padding: 20px 0;
+    background: #f9f9f9;
+    border-bottom: 1px solid #eee;
+}
+
+.content .items .item:last-child {
+    border-bottom: none;
+}
+
+.content .items .item .title {
+    margin: 0 0 10px;
+}
+
+.content .items .item p {
+    font-size: 12px;
+    margin: 0;
+}
+
+.content .items .item p span:first-child {
+    margin-right: 10px;
+}
+
+.content .items .item a {
+    display: block;
+}
+
+.content .items .item a img {
+    width: 100%;
+    height: 100%;
+}
+
+.content .items .pages .text {
+    margin-top: 20px;
+}
+
+.content .items .pages li:nth-last-child(2) a {
+    border-right: 0;
+}
+
+.content .items .pages .goPage .input-group {
+    width: 12%;
+}
+
+.content .items .pages .goPage .input-group .form-control {
+    border-radius: 0;
+}
+
+.content .items .layui-flow-more {
+    margin: 20px 0;
+}
+
+.content .map {
+    padding: 20px 0;
+    position: relative;
+}
+
+.content .map .btn-box {
+    margin: 10px 0;
+}
+
+.content .show .thumbnail img {
+    max-height: 360px;
+}

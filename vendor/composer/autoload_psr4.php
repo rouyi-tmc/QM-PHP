@@ -6,4 +6,6 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname($vendorDir);
 
 return array(
+    'Xiaoler\\Blade\\' => array($vendorDir . '/xiaoler/blade/src'),
+    'App\\' => array($baseDir . '/app'),
 );
