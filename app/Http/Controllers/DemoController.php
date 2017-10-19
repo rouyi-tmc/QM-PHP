@@ -12,7 +12,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Classes\Controller;
-use App\Http\Models\ItemModel;
+use App\Http\Models\DemoModel;
 
 class DemoController extends Controller
 {
@@ -25,11 +25,11 @@ class DemoController extends Controller
         $keyword = isset($_GET['keyword']) ? $_GET['keyword'] : '';
 
         if ($keyword) {
-            $items = (new ItemModel())->search($keyword);
+            $items = (new DemoModel())->search($keyword);
         } else {
             // 查询所有内容，并按倒序排列输出
             // where()方法可不传入参数，或者省略
-            $items = (new ItemModel)->where()->order(['id DESC'])->fetchAll();
+            $items = (new DemoModel)->where()->order(['id DESC'])->fetchAll();
         }
 
         $data = ['title' => '欢迎使用', 'items' => $items];
@@ -44,7 +44,7 @@ class DemoController extends Controller
     public function detail($id)
     {
         // 通过?占位符传入$id参数
-        $item = (new ItemModel())->where(["id = ?"], [$id])->fetch();
+        $item = (new DemoModel())->where(["id = ?"], [$id])->fetch();
         $data = ['title' => '条目详情', 'items' => $item];
         return view('item.detail', compact('data'));
     }
@@ -56,7 +56,7 @@ class DemoController extends Controller
     public function add()
     {
         $data['item_name'] = $_POST['value'];
-        $count = (new ItemModel)->add($data);
+        $count = (new DemoModel)->add($data);
         $data = ['title' => '添加成功', 'count' => $count];
         return view('item.add', compact('data'));
     }
@@ -71,7 +71,7 @@ class DemoController extends Controller
         $items = [];
         if ($id) {
             // 通过名称占位符传入参数
-            $items = (new ItemModel())->where(["id = :id"], [':id' => $id])->fetch();
+            $items = (new DemoModel())->where(["id = :id"], [':id' => $id])->fetch();
         }
         $data = ['title' => '管理条目', 'items' => $items];
         return view('item.manage', compact('data'));
@@ -84,7 +84,7 @@ class DemoController extends Controller
     public function update()
     {
         $data = ['id' => $_POST['id'], 'item_name' => $_POST['value']];
-        $count = (new ItemModel)->where(['id = :id'], [':id' => $data['id']])->update($data);
+        $count = (new DemoModel)->where(['id = :id'], [':id' => $data['id']])->update($data);
         $data = ['title' => '修改成功', 'count' => $count];
         return view('item.update', compact('data'));
     }
@@ -96,7 +96,7 @@ class DemoController extends Controller
      */
     public function delete($id = null)
     {
-        $count = (new ItemModel)->delete($id);
+        $count = (new DemoModel)->delete($id);
         $data = ['title' => '删除成功', 'count' => $count];
         return view('item.update', compact('data'));
     }
