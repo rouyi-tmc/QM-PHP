@@ -16,7 +16,7 @@ QM-PHP是一款简单的PHP MVC框架，使用面向对面快速开发、PDO操�
 ## 要求：
 - PHP 5.6+
 - MySQL 5.7+
-- Apache/Nginx
+- Apache / Nginx
 
 ## 目录说明
 
