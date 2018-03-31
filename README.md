@@ -43,15 +43,21 @@ QM-PHP是一款简单的PHP MVC框架，使用面向对面快速开发、PDO操�
 
 ## 使用
 
-### 1.克隆代码
+### 克隆代码
 
 ```
 git clone https://github.com/RouyiTian/QM-PHP.git
 ```
 
-### 2.修改数据库配置文件
+### 安装扩展，在项目根目录执行
 
-打开配置文件 config/database.php ，使之与自己的数据库匹配
+```
+composer install
+```
+
+### 修改数据库配置文件
+
+- 打开配置文件 config/database.php ，使之与自己的数据库匹配
 
 ```
 return [
@@ -68,7 +74,7 @@ return [
 ```
 
 ### 服务器配置
-- 在Apache 或 Nginx中创建一个站点，把 public 设置为站点根目录
+#### 在Apache 或 Nginx中创建一个站点，把 public 设置为站点根目录
 - Apache 服务器配置：
 
 ```
