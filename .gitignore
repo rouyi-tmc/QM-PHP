@@ -1,3 +1,9 @@
 *.zip
-.idea/
-vendor/
+*.rar
+*.7z
+*.log
+/node_modules
+/public/storage
+/storage/*.key
+/vendor
+/.idea

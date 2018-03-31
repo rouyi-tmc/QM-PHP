@@ -29,6 +29,7 @@ class Route
 
     /**
      * 路由处理
+     *
      * @return mixed
      */
     public function route()
@@ -50,23 +51,31 @@ class Route
         }
 
         $controller = __NAMESPACE__ . '\Controllers\\' . $controllerName . 'Controller';
-        if (!class_exists($controller)) return message($controller . '控制器不存在');
-        if (!method_exists($controller, $actionName)) return message($actionName . '方法不存在');
+        if (!class_exists($controller)) {
+            return message($controller . '控制器不存在');
+        }
+
+        if (!method_exists($controller, $actionName)) {
+            return message($actionName . '方法不存在');
+        }
+
         $dispatch = new $controller();
         return call_user_func_array(array($dispatch, $actionName), $param);
     }
 
     /**
      * 检测是否打开了 DeBug 模式
+     *
+     * @return Errors 重置错误显示
      */
     public function setReporting()
     {
-        // 重置错误显示
         return new Errors();
     }
 
     /**
      * 删除敏感字符
+     *
      * @param $value
      * @return array|string
      */
@@ -108,20 +117,29 @@ class Route
 
     /**
      * 配置数据库信息
+     *
      * @return bool|mixed
      */
     public function setDbConfig()
     {
-        $config = Config('database');
-        $database = $config[$config['default']];
-        if (!isset($database)) return message('缺少数据库配置项，请检查！');
-        define('DB_TYPE', $config['default']);
-        define('DB_HOST', $database['host']);
-        define('DB_PORT', $database['port']);
-        define('DB_NAME', $database['name']);
-        define('DB_USER', $database['username']);
-        define('DB_PASS', $database['password']);
-        define('DB_CHAR', $database['character']);
+        try {
+            $config = Config('database');
+            $database = $config[$config['default']];
+            if (!isset($database)) {
+                return message('缺少数据库配置项，请检查！');
+            }
+
+            define('DB_TYPE', $config['default']);
+            define('DB_HOST', $database['host']);
+            define('DB_PORT', $database['port']);
+            define('DB_NAME', $database['name']);
+            define('DB_USER', $database['username']);
+            define('DB_PASS', $database['password']);
+            define('DB_CHAR', $database['character']);
+        } catch (\Exception $exception) {
+            return false;
+        }
+
         return true;
     }
 }

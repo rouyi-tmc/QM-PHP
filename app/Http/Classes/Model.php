@@ -15,37 +15,79 @@ use PDOStatement;
 
 class Model
 {
-    // 数据库表名
+    /**
+     * 数据库表名
+     *
+     * @var string
+     */
     protected $table;
 
-    // 数据库主键
+    /**
+     * 数据库主键
+     *
+     * @var string
+     */
     protected $primary = 'id';
 
-    // WHERE和ORDER拼装后的条件
+    /**
+     * WHERE 和 ORDER 拼装后的条件
+     *
+     * @var string
+     */
     protected $filter = '';
 
-    // Pdo bindParam()绑定的参数集合
+    /**
+     * Pdo bindParam() 绑定的参数集合
+     *
+     * @var array
+     */
     private $param = [];
 
-    // 当前页码
-    protected $offset;
+    /**
+     * 当前页码
+     *
+     * @var int
+     */
+    protected $offset = 0;
 
-    // 显示条数
-    protected $pageSize;
+    /**
+     * 显示条数
+     *
+     * @var int
+     */
+    protected $pageSize = 20;
 
-    // 排序方式
-    private $orderBy;
+    /**
+     * 排序方式
+     *
+     * @var array
+     */
+    private $orderBy = ['id desc'];
 
-    // 模型名称
-    protected $model;
+    /**
+     * 模型名称
+     *
+     * @var bool|string
+     */
+    protected $model = 'Home';
 
-    // 查询结果
-    protected $items;
+    /**
+     * 查询结果
+     *
+     * @var object|null
+     */
+    protected $items = (object) [];
 
+    /**
+     * 需要查询的字段
+     *
+     * @var string
+     */
     protected $field = '*';
 
     /**
      * 构造函数
+     *
      * Model constructor.
      */
     public function __construct()
@@ -85,6 +127,7 @@ class Model
 
     /**
      * 分页设置
+     *
      * @param int $offset
      * @param int $pageSize
      * @return $this
@@ -98,6 +141,7 @@ class Model
 
     /**
      * 分页
+     *
      * @param bool $display
      * @return mixed
      */
@@ -112,6 +156,7 @@ class Model
 
     /**
      * 拼装排序条件，使用方式：
+     *
      * $this->order(['id DESC', 'title ASC', ...])->fetch();
      * @param array $order 排序条件
      * @return $this
@@ -124,6 +169,7 @@ class Model
 
     /**
      * 设置查询字段
+     *
      * @param string $field
      * @return $this
      */
@@ -135,6 +181,7 @@ class Model
 
     /**
      * 查询所有
+     *
      * @return mixed
      */
     public function fetchAll()
@@ -157,6 +204,7 @@ class Model
 
     /**
      * 查询一条
+     *
      * @return mixed
      */
     public function fetch()
@@ -172,6 +220,7 @@ class Model
 
     /**
      * 根据条件 (id) 删除
+     *
      * @param $id
      * @return int
      */
@@ -187,6 +236,7 @@ class Model
 
     /**
      * 新增数据
+     *
      * @param $data
      * @return int
      */
@@ -203,6 +253,7 @@ class Model
 
     /**
      * 更新数据
+     *
      * @param $data
      * @return int
      */
@@ -242,6 +293,7 @@ class Model
 
     /**
      * 将数组转换成插入格式的sql语句
+     *
      * @param $data
      * @return string
      */
@@ -262,6 +314,7 @@ class Model
 
     /**
      * 将数组转换成更新格式的sql语句
+     *
      * @param $data
      * @return string
      */

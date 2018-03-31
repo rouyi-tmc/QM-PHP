@@ -1,6 +1,6 @@
 <?php
 /**
- *
+ * 默认控制器
  * Created by PhpStorm.
  * User: Rouyi
  * Date: 2018/4/1
@@ -15,6 +15,11 @@ use App\Http\Classes\Controller;
 
 class HomeController extends Controller
 {
+    /**
+     * 默认方法
+     *
+     * @return mixed
+     */
     public function index()
     {
         return view('welcome');

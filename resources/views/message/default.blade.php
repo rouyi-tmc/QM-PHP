@@ -1,14 +1,3 @@
-<?php
-/**
- * 消息提示模板
- * Created by PhpStorm.
- * User: Rouyi
- * Date: 2017/10/18
- * Time: 下午7:05
- * Email: 383442255@qq.com
- * WebSite: http://qimaweb.com
- */
-?>
 <!doctype html>
 <html lang="zh-CN">
 <head>

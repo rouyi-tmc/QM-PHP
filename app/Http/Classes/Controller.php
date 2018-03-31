@@ -15,6 +15,7 @@ class Controller
 {
     /**
      * 构造函数，初始化属性，并实例化对应模型
+     *
      * Controller constructor.
      */
     public function __construct()

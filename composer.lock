@@ -16,7 +16,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/XiaoLer/blade/zipball/b3a71e2e589e31956209e7f3d5ce6f9473e63a45",
+                "url": "https://files.phpcomposer.com/files/XiaoLer/blade/b3a71e2e589e31956209e7f3d5ce6f9473e63a45.zip",
                 "reference": "b3a71e2e589e31956209e7f3d5ce6f9473e63a45",
                 "shasum": ""
             },

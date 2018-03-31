@@ -1,5 +1,12 @@
 <?php
 /**
+ * 分页类
+ * 使用方式:
+ * $page = new Page();
+ * $page->init(1000, 20);
+ * $page->setNotActiveTemplate('<span> {a} </span>');
+ * $page->setActiveTemplate('{a}');
+ * echo $page->show();
  *
  * Created by PhpStorm.
  * User: Rouyi
@@ -11,62 +18,61 @@
 
 namespace App\Http\Classes;
 
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
-/**
- * 分页类
- * 使用方式:
- * $page = new Page();
- * $page->init(1000, 20);
- * $page->setNotActiveTemplate('<span> {a} </span>');
- * $page->setActiveTemplate('{a}');
- * echo $page->show();
- *
- *
- * @author 风居住的地方
- */
 class Page
 {
     /**
      * 总条数
+     *
+     * @var int
      */
     private $total;
 
     /**
-     * 每页大小
+     * 每页显示条数
+     *
+     * @var int
      */
     private $pageSize;
 
     /**
      * 总页数
+     *
+     * @var int
      */
     private $pageNum;
 
     /**
      * 当前页
+     *
+     * @var int
      */
     private $page;
 
     /**
-     * 地址
+     * 分页 URL 地址
+     *
+     * @var string
      */
     private $uri;
 
     /**
      * 分页变量
+     *
+     * @var string
      */
     private $pageParam;
 
     /**
      * LIMIT XX,XX
+     *
+     * @var string
      */
     private $limit;
 
     /**
      * 数字分页显示
+     *
+     * @var int
      */
     private $listNum = 8;
 
@@ -84,21 +90,29 @@ class Page
      * {last}    尾页
      * {list}    数字分页
      * {goTo}    跳转按钮
+     *
+     * @var string
      */
     private $template = '<nav class="pages" aria-label="Page navigation"><div class="text"><span>共有{total}条</span><span>每页显示{pageSize}条</span>,<span>本页{start}-{end}条</span><span>共有{pageNum}页</span></div><ul class="pagination">{first}{pre}{list}{next}{last}{goTo}</ul></nav>';
 
     /**
      * 当前选中的分页链接模板
+     *
+     * @var string
      */
     private $activeTemplate = '<li class="active"><a rel="nofollow" href="javascript:;">{text}</a></li>';
 
     /**
      * 未选中的分页链接模板
+     *
+     * @var string
      */
     private $notActiveTemplate = '<li><a href="{url}">{text}</a></li>';
 
     /**
      * 显示文本设置
+     *
+     * @var array
      */
     private $config = [
         'first' => '首页',
@@ -109,6 +123,7 @@ class Page
 
     /**
      * 初始化
+     *
      * @param int $total 总条数
      * @param int $pageSize 每页大小
      * @param string $param url附加参数
@@ -127,6 +142,7 @@ class Page
 
     /**
      * 设置分页模板
+     *
      * @param string $template 模板配置
      */
     public function setTemplate($template)
@@ -136,6 +152,7 @@ class Page
 
     /**
      * 设置选中分页模板
+     *
      * @param string $activeTemplate 模板配置
      */
     public function setActiveTemplate($activeTemplate)
@@ -145,6 +162,7 @@ class Page
 
     /**
      * 设置未选中分页模板
+     *
      * @param string $notActiveTemplate 模板配置
      */
     public function setNotActiveTemplate($notActiveTemplate)
@@ -154,6 +172,7 @@ class Page
 
     /**
      * 返回分页
+     *
      * @return string
      */
     public function show()
@@ -191,6 +210,7 @@ class Page
 
     /**
      * 获取limit起始数
+     *
      * @return int
      */
     public function getOffset()
@@ -200,6 +220,7 @@ class Page
 
     /**
      * 设置LIMIT
+     *
      * @return string
      */
     private function setLimit()
@@ -208,7 +229,8 @@ class Page
     }
 
     /**
-     * 获取limit
+     * 获取LIMIT
+     *
      * @param string $args
      * @return string|null
      */
@@ -216,62 +238,68 @@ class Page
     {
         if ($args == "limit") {
             return $this->limit;
-        } else {
-            return null;
         }
+
+        return null;
     }
 
     /**
      * 初始化当前页
+     *
      * @return int
      */
     private function setPage()
     {
         if (!empty($_GET[$this->pageParam])) {
             if ($_GET[$this->pageParam] > 0) {
-                if ($_GET[$this->pageParam] > $this->pageNum)
+                if ($_GET[$this->pageParam] > $this->pageNum) {
                     return $this->pageNum;
-                else
+                } else {
                     return $_GET[$this->pageParam];
+                }
             }
         }
+
         return 1;
     }
 
     /**
      * 初始化url
+     *
      * @param string $param
      * @return string
      */
     private function getUri($param)
     {
-        $url = $_SERVER['REQUEST_URI'] . (strpos($_SERVER['REQUEST_URI'], "?") ? "" : "?") . $param;
+        $url = $_SERVER['REQUEST_URI'] . (strpos($_SERVER['REQUEST_URI'], "?") ? '' : "?") . $param;
         $parse = parse_url($url);
         if (isset($parse["query"])) {
             parse_str($parse["query"], $params);
             unset($params["page"]);
             $url = $parse["path"] . "?" . http_build_query($params);
             return $url;
-        } else {
-            return $url;
         }
+
+        return $url;
     }
 
     /**
      * 本页开始条数
+     *
      * @return int
      */
     private function star()
     {
         if ($this->total == 0) {
             return 0;
-        } else {
-            return ($this->page - 1) * $this->pageSize + 1;
         }
+
+        return ($this->page - 1) * $this->pageSize + 1;
     }
 
     /**
      * 本页结束条数
+     *
      * @return int
      */
     private function end()
@@ -281,6 +309,7 @@ class Page
 
     /**
      * 设置当前页大小
+     *
      * @return int
      */
     private function setPageSize()
@@ -290,6 +319,7 @@ class Page
 
     /**
      * 首页
+     *
      * @return string
      */
     private function first()
@@ -300,11 +330,13 @@ class Page
         } else {
             $html .= $this->replace("{$this->uri}&page=1", $this->config['first'], false);
         }
+
         return $html;
     }
 
     /**
      * 上一页
+     *
      * @return string
      */
     private function prev()
@@ -315,39 +347,40 @@ class Page
         } else {
             $html .= $this->replace($this->uri . '&page=' . ($this->page - 1), $this->config['pre'], true);
         }
+
         return $html;
     }
 
     /**
      * 分页数字列表
+     *
      * @return string
      */
     private function pageList()
     {
-        $linkPage = "";
+        $linkPage = '';
         $lastList = floor($this->listNum / 2);
         for ($i = $lastList; $i >= 1; $i--) {
             $page = $this->page - $i;
-            if ($page >= 1) {
-                $linkPage .= $this->replace("{$this->uri}&page={$page}", $page, false);
-            } else {
-                continue;
-            }
+            if ($page < 1) continue;
+
+            $linkPage .= $this->replace("{$this->uri}&page={$page}", $page, false);
         }
+
         $linkPage .= $this->replace("{$this->uri}&page={$this->page}", $this->page, true);
         for ($i = 1; $i <= $lastList; $i++) {
             $page = $this->page + $i;
-            if ($page <= $this->pageNum) {
-                $linkPage .= $this->replace("{$this->uri}&page={$page}", $page, false);
-            } else {
-                break;
-            }
+            if ($page < $this->pageNum) break;
+
+            $linkPage .= $this->replace("{$this->uri}&page={$page}", $page, false);
         }
+
         return $linkPage;
     }
 
     /**
      * 下一页
+     *
      * @return string
      */
     private function next()
@@ -358,11 +391,13 @@ class Page
         } else {
             $html .= $this->replace($this->uri . '&page=' . ($this->page + 1), $this->config['next'], true);
         }
+
         return $html;
     }
 
     /**
      * 最后一页
+     *
      * @return string
      */
     private function last()
@@ -373,11 +408,13 @@ class Page
         } else {
             $html .= $this->replace($this->uri . '&page=' . ($this->pageNum), $this->config['last'], false);
         }
+
         return $html;
     }
 
     /**
      * 跳转按钮
+     *
      * @return string
      */
     private function goPage()
@@ -389,6 +426,7 @@ class Page
 
     /**
      * 模板替换
+     *
      * @param string $url
      * @param string $text
      * @param bool $result
@@ -397,7 +435,6 @@ class Page
     private function replace($url, $text, $result = true)
     {
         $template = ($result ? $this->activeTemplate : $this->notActiveTemplate);
-
         $html = str_replace('{url}', $url, $template);
         $html = str_replace('{text}', $text, $html);
         return $html;

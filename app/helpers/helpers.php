@@ -276,6 +276,7 @@ if (!function_exists('json')) {
      * 结束并输出JSON字符串
      *
      * @param array $data
+     * @return string
      */
     function json($data = [])
     {

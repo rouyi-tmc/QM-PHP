@@ -26,6 +26,7 @@ class Errors
 
     /**
      * 自定义异常理
+     *
      * @param $e
      * @return mixed
      */
@@ -44,6 +45,7 @@ class Errors
 
     /**
      * 错误处理
+     *
      * @param $errNo
      * @param $error
      * @param $file
@@ -73,6 +75,7 @@ class Errors
 
     /**
      * 致命错误处理
+     *
      * @return mixed
      */
     public function fatalError()
@@ -91,6 +94,7 @@ class Errors
 
     /**
      * 获取错误标识
+     *
      * @param $type
      * @return string
      */
@@ -149,6 +153,7 @@ class Errors
 
     /**
      * 日志处理
+     *
      * @param string $message
      * @return mixed
      */

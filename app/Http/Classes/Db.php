@@ -22,6 +22,11 @@ class Db
 {
     private static $pdo = null;
 
+    /**
+     * 实例化 PDO
+     *
+     * @return null|PDO
+     */
     public static function pdo()
     {
         if (self::$pdo !== null) return self::$pdo;
@@ -33,7 +38,7 @@ class Db
             $db->query("set character set '" . DB_CHAR . "'");
             return self::$pdo = $db;
         } catch (Exception $e) {
-            throw new Exception($e);
+            die('数据库连接失败，失败信息：' . $e);
         }
     }
 }

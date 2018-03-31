@@ -2,17 +2,27 @@
 
 ## 简述
 
-**QM-PHP**是一款简单的PHP MVC框架，使用面向对面快速开发，框架使用 Blade 模板引擎，让您快速上手！
+QM-PHP是一款简单的PHP MVC框架，使用面向对面快速开发、PDO操作数据库
+框架使用 Blade 模板引擎、自动发现路由等特色功能，让您优雅而快速的上手！
 
-要求：
+-----------------
+## 特色：
+- Mvc 面向对象开发
+- Pdo 数据库操作
+- Composer 安装拓展包
+- Blade 模板引擎
+- Route 自动发现路由
 
-* PHP 5.6+
+## 要求：
+- PHP 5.6+
+- MySQL 5.7+
+- Apache/Nginx
 
 ## 目录说明
 
 ```
 ├─app                   程序主目录
-├───Common              全局函数目录
+├───helpers             全局函数目录
 ├───Http                应用目录
 │   ├─Classes           核心库文件
 │   ├─Controllers       控制器目录
@@ -57,10 +67,10 @@ return [
 ];
 ```
 
-### 3.配置 Nginx 或 Apache
-在Apache 或 Nginx中创建一个站点，把 public 设置为站点根目录（入口文件 index.php 所在的目录）。
+### 服务器配置
+- 在Apache 或 Nginx中创建一个站点，把 public 设置为站点根目录
+- Apache 服务器配置：
 
-然后设置单一入口， Apache 服务器配置：
 ```
 <IfModule mod_rewrite.c>
     # 打开Rerite功能
@@ -74,14 +84,12 @@ return [
     RewriteRule . index.php
 </IfModule>
 ```
-Nginx 服务器配置：
+
+- Nginx 服务器配置：
+
 ```
 location / {
     # 重新向所有非真实存在的请求到index.php
     try_files $uri $uri/ /index.php$args;
 }
 ```
-
-### 4.测试访问
-
-然后访问站点域名：http://localhost/ 就可以了。
