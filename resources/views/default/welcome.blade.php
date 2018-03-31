@@ -1,5 +1,5 @@
 @extends('layout')
-@section('title', $data['title'])
+@section('title', '欢迎使用QM-PHP')
 @section('content')
     <div class="content" style="padding: 20px 0">
         <nav class="navbar navbar-default">
@@ -49,7 +49,7 @@
                             </ul>
                         </li>
                     </ul>
-                </div><!-- /.navbar-collapse -->
+                </div>
             </div>
         </nav>
         <div class="bs-example" data-example-id="simple-jumbotron">

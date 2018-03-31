@@ -118,7 +118,7 @@ class Route
         define('DB_TYPE', $config['default']);
         define('DB_HOST', $database['host']);
         define('DB_PORT', $database['port']);
-        define('DB_NAME', $database['dbname']);
+        define('DB_NAME', $database['name']);
         define('DB_USER', $database['username']);
         define('DB_PASS', $database['password']);
         define('DB_CHAR', $database['character']);

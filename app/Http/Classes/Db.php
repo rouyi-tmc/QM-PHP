@@ -27,7 +27,7 @@ class Db
         if (self::$pdo !== null) return self::$pdo;
 
         try {
-            $dsn = sprintf('%s:host=%s;port=%s;dbname=%s', DB_TYPE, DB_HOST, DB_PORT, DB_NAME);
+            $dsn = sprintf('%s:host=%s;port=%s;name=%s', DB_TYPE, DB_HOST, DB_PORT, DB_NAME);
             $option = [PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC];
             $db = new PDO($dsn, DB_USER, DB_PASS, $option);
             $db->query("set character set '" . DB_CHAR . "'");

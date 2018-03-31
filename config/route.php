@@ -12,7 +12,7 @@
 return [
     // 默认控制器和操作名
     'default' => [
-        'controller' => 'Gather',
+        'controller' => 'Home',
         'action' => 'index',
     ],
 ];

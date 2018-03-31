@@ -45,6 +45,7 @@ class GatherController extends Controller
         foreach ($items->lists as $k => $v) {
             $category[$k] = (isJson($v['categories'])) ? json_decode($v['categories'], true) : $v['categories'];
         }
+
         $category = $this->getUniqueArray($category);
 
         return view('gather.index', [
@@ -106,7 +107,7 @@ class GatherController extends Controller
         $category = (input('category')) ? input('category') : null;
         $category = ($category == '所有分类') ? null : $category;
 
-        if (!$latitude || !$longitude) return canBackJson([
+        if (!$latitude || !$longitude) return json([
             'code' => -100,
             'message' => '参数不正确'
         ]);
@@ -120,7 +121,7 @@ class GatherController extends Controller
 
         $items->last_page = ceil($items->count / $pageSize);
 
-        return canBackJson([
+        return json([
             'code' => 200,
             'data' => $items,
         ]);

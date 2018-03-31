@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "fa7346aa9be590e2ac99b5d9f8c7aaf6",
+    "content-hash": "4b8406bd022ddb58cad183184ff3ef64",
     "packages": [
         {
             "name": "xiaoler/blade",
@@ -54,7 +54,7 @@
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
-        "php": ">=5.5.9"
+        "php": ">=5.6"
     },
     "platform-dev": []
 }

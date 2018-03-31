@@ -12,6 +12,7 @@
 if (!function_exists('Config')) {
     /**
      * 获取配置项
+     *
      * @param string $file
      * @return mixed
      */
@@ -19,13 +20,15 @@ if (!function_exists('Config')) {
     {
         if (!$file) return [];
 
-        if (strpos($file, '.') === false)
+        if (strpos($file, '.') === false) {
             $filename = $file;
-        else
+        } else {
             list($filename, $field) = explode('.', $file);
+        }
 
         $loadFile = root_path('config/' . $filename . '.php');
         if (!file_exists($loadFile)) return [];
+
         $config = require $loadFile;
         return (isset($field) && isset($config[$field])) ? $config[$field] : $config;
     }
@@ -34,6 +37,7 @@ if (!function_exists('Config')) {
 if (!function_exists('isJson')) {
     /**
      * 判断是否是 JSON 字符串
+     *
      * @param $string
      * @return bool
      */
@@ -47,6 +51,7 @@ if (!function_exists('isJson')) {
 if (!function_exists('asset')) {
     /**
      * asset
+     *
      * @param string $file
      * @return string
      */
@@ -60,6 +65,7 @@ if (!function_exists('asset')) {
 if (!function_exists('url')) {
     /**
      * url
+     *
      * @param string $url
      * @return string
      */
@@ -73,6 +79,7 @@ if (!function_exists('url')) {
 if (!function_exists('message')) {
     /**
      * 提示消息
+     *
      * @param string $message
      * @param string $title
      * @return mixed
@@ -89,13 +96,13 @@ if (!function_exists('message')) {
 if (!function_exists('getControllerAction')) {
     /**
      * 获得控制器和方法名
+     *
      * @param string $field
      * @return array|string
      */
-    function getControllerAction($field = '')
+    function getControllerAction($field = null)
     {
         $config = Config('route');
-
         $array = [
             'controller' => $config['default']['controller'],
             'action' => $config['default']['action'],
@@ -120,6 +127,7 @@ if (!function_exists('getControllerAction')) {
 if (!function_exists('input')) {
     /**
      * 获取请求参数
+     *
      * @param string $field
      * @return array|bool
      */
@@ -135,6 +143,7 @@ if (!function_exists('input')) {
 if (!function_exists('root_path')) {
     /**
      * 拼接站点根目录真实路径
+     *
      * @param string $path
      * @return string
      */
@@ -147,6 +156,7 @@ if (!function_exists('root_path')) {
 if (!function_exists('app_path')) {
     /**
      * 拼接真实路径
+     *
      * @param string $path
      * @return string
      */
@@ -159,6 +169,7 @@ if (!function_exists('app_path')) {
 if (!function_exists('public_path')) {
     /**
      * 拼接真实路径
+     *
      * @param string $path
      * @return string
      */
@@ -171,6 +182,7 @@ if (!function_exists('public_path')) {
 if (!function_exists('storage_path')) {
     /**
      * 拼接真实路径
+     *
      * @param string $path
      * @return string
      */
@@ -183,6 +195,7 @@ if (!function_exists('storage_path')) {
 if (!function_exists('resources_path')) {
     /**
      * 拼接真实路径
+     *
      * @param string $path
      * @return string
      */
@@ -195,54 +208,76 @@ if (!function_exists('resources_path')) {
 if (!function_exists('view')) {
     /**
      * 加载模板
-     * @param string $view
+     *
+     * @param null $view
      * @param array $data
      * @return mixed
      */
     function view($view = null, $data = [])
     {
-        $view = (!$view) ? getControllerAction('controller') . '/' . getControllerAction('action') : $view;
+        if (is_null($view)) {
+            $view = getControllerAction('controller') . '/' . getControllerAction('action');
+        }
+
         $view = strtolower($view);
-
-        $file = new \Xiaoler\Blade\Filesystem;
+        $file = new Xiaoler\Blade\Filesystem();
         $compiler = new Xiaoler\Blade\Compilers\BladeCompiler($file, storage_path('views'));
-
-        $resolver = new Xiaoler\Blade\Engines\EngineResolver;
+        $resolver = new Xiaoler\Blade\Engines\EngineResolver();
         $resolver->register('blade', function () use ($compiler) {
             return new Xiaoler\Blade\Engines\CompilerEngine($compiler);
         });
 
-        $style = (!preg_match("/(message|errors)/", $view)) ? Config('app.template') : '';
-        $factory = new Xiaoler\Blade\Factory($resolver, new Xiaoler\Blade\FileViewFinder($file, [resources_path('views/' . $style)]));
+        $theme = null;
+        if (!preg_match("/(message|errors)/", $view)) {
+            $theme = Config('app.template');
+        }
+
+        $factory = new Xiaoler\Blade\Factory($resolver, new Xiaoler\Blade\FileViewFinder($file, [
+            resources_path('views/' . $theme)
+        ]));
         $factory->addExtension('blade', 'php');
 
-        if (!$factory->exists($view)) return message('模板 ' . $view . ' 不存在！');
+        if (!$factory->exists($view)) {
+            return abort(404, '模板 ' . $view . ' 不存在！');
+        }
 
-        $show = $factory->make($view, compact('data'))->render();
+        try {
+            $show = $factory->make($view, compact('data'))->render();
+        } catch (Throwable $exception) {
+            $show = $exception->getMessage();
+        }
+
         exit($show);
     }
 }
 
-if (!function_exists('errors')) {
+if (!function_exists('abort')) {
     /**
      * 显示自定义错误页面模板
-     * @param $code
+     *
+     * @param int $code 错误状态码
+     * @param string $message 错误信息
      * @return mixed
      */
-    function errors($code = 404)
+    function abort($code = 404, $message = null)
     {
-        header("http/1.1 {$code} Forbidden");
-        if ($code == 400) return view("errors.{$code}");
-        exit;
+        switch ($code) {
+            case 404:
+                Header('HTTP/1.1 404 Not Found');
+                break;
+        }
+
+        return view("errors.{$code}");
     }
 }
 
-if (!function_exists('canBackJson')) {
+if (!function_exists('json')) {
     /**
      * 结束并输出JSON字符串
+     *
      * @param array $data
      */
-    function canBackJson($data = [])
+    function json($data = [])
     {
         header('Content-Type:application/json; charset=utf-8');
         exit(json_encode($data));
@@ -252,6 +287,7 @@ if (!function_exists('canBackJson')) {
 if (!function_exists('getUniqueArray')) {
     /**
      * 去除数组重复的值
+     *
      * @param array $array
      * @param string $field
      * @return array
@@ -272,6 +308,7 @@ if (!function_exists('getUniqueArray')) {
                         ],
                     ];
                 }
+
                 $old[$key] = $name;
             }
         }
@@ -299,14 +336,23 @@ if (!function_exists('getUniqueArray')) {
 }
 
 if (!function_exists('setCache')) {
+    /**
+     * 写入缓存
+     *
+     * @param $file
+     * @param array $data
+     * @return bool
+     */
     function setCache($file, $data = [])
     {
+        return true;
     }
 }
 
 if (!function_exists('getCache')) {
     /**
      * 读取缓存
+     *
      * @param string $file
      * @return array|mixed
      */
@@ -322,6 +368,7 @@ if (!function_exists('getCache')) {
 if (!function_exists('getCategoriesName')) {
     /**
      * 获取分类名称
+     *
      * @param string $string
      * @return mixed|string
      */
@@ -334,7 +381,14 @@ if (!function_exists('getCategoriesName')) {
 }
 
 if (!function_exists('getJsonToArray')) {
-    function getJsonToArray($string = '') {
+    /**
+     * JSON字符串转数组
+     *
+     * @param string $string
+     * @return mixed|string
+     */
+    function getJsonToArray($string = '')
+    {
         $data = isJson($string) ? json_decode($string, true) : $string;
         return $data;
     }
