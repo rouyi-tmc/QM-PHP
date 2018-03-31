@@ -49,7 +49,7 @@ return [
     'mysql' => [
         'port' => '3306',       //数据库端口
         'host' => 'localhost',  //数据库地址
-        'dbname' => 'test',     //数据表
+        'name' => 'test',       //数据表名称
         'username' => 'root',   //数据库用户名
         'password' => 'root',   //数据库密码
         'character' => 'UTF-8', //使用编码
